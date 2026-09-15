@@ -1,11 +1,11 @@
 ---
 title: Hello World
 ---
-欢迎来到[Hexo](https://hexo.io/)! 这是你的第一篇博文。点击[documentation（文档）](https://hexo.io/docs/) 了解更多信息. 如果你在使用HEXO中遇到任何问题，你可以在 [troubleshooting（故障排除）](https://hexo.io/docs/troubleshooting.html)中找到答案，或者在[GitHub](https://github.com/hexojs/hexo/issues)上询问.
+Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
 
-## 快速开始
+## Quick Start
 
-### 创建新帖子
+### Create a new post
 
 ``` bash
 $ hexo new "My New Post"

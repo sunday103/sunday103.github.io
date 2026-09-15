@@ -83,7 +83,40 @@ hexo.extend.filter.register('before_generate', function () {
 // ============================================================
 function checkFile(full, errors, warnings) {
   const rel = path.relative(hexo.base_dir, full).replace(/\\/g, '/');
-  const raw = fs.readFileSync(full, 'utf8');
+  const buf = fs.readFileSync(full);
+
+  // ---- 0. 文件编码检查（必须最先做）----
+  // 用「严格模式」UTF-8 解码：只要文件里有非法字节序列就会抛错。
+  // 最常见的成因是编辑时按 GBK/ANSI 保存（记事本、PowerShell 的
+  // Set-Content 都可能），此时中文会变成非法 UTF-8 字节，
+  // 表现为网页上出现「�」乱码。
+  let raw;
+  try {
+    raw = new TextDecoder('utf-8', { fatal: true }).decode(buf);
+  } catch (e) {
+    const gbk = looksLikeGbk(buf);
+    errors.push({
+      file: rel,
+      line: 1,
+      msg: gbk
+        ? '\u6587\u4ef6\u4e0d\u662f\u5408\u6cd5\u7684 UTF-8\uff0c\u7591\u4f3c\u88ab\u4fdd\u5b58\u6210\u4e86 GBK/ANSI \u7f16\u7801'
+        : '\u6587\u4ef6\u542b\u975e\u6cd5 UTF-8 \u5b57\u8282\u5e8f\uff0c\u7f16\u7801\u5df2\u635f\u574f',
+      hint: '\u7528 VS Code \u6253\u5f00\u8be5\u6587\u4ef6\uff0c\u70b9\u53f3\u4e0b\u89d2\u7684\u7f16\u7801\u6807\u8bc6'
+        + '\uff08\u5982 GBK/ANSI\uff09\u9009 Reopen with Encoding \u6539\u4e3a UTF-8'
+        + '\uff0c\u786e\u8ba4\u4e2d\u6587\u6b63\u5e38\u540e\u518d\u4fdd\u5b58\u3002'
+        + '\u4e0d\u8981\u7528 PowerShell \u7684 Set-Content \u4fdd\u5b58\u3002'
+    });
+    return;
+  }
+
+  // BOM 检查：带 BOM 的 UTF-8 在 YAML 解析时容易出问题
+  if (buf[0] === 0xEF && buf[1] === 0xBB && buf[2] === 0xBF) {
+    warnings.push({
+      file: rel,
+      msg: '\u6587\u4ef6\u5e26\u6709 UTF-8 BOM\uff08\u5f00\u5934\u4e09\u4e2a\u4e0d\u53ef\u89c1\u5b57\u8282\uff09\uff0c'
+        + '\u5efa\u8bae\u4fdd\u5b58\u4e3a\u300cUTF-8\uff08\u4e0d\u5e26 BOM\uff09\u300d'
+    });
+  }
 
   // ---- 1. 分隔符 ----
   const m = raw.match(/^(\uFEFF)?---[ \t]*\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/);
@@ -156,6 +189,29 @@ function checkFile(full, errors, warnings) {
   if (!body) {
     warnings.push({ file: rel, msg: '\u6b63\u6587\u4e3a\u7a7a\uff0c\u6587\u7ae0\u9875\u4f1a\u663e\u793a\u4e3a\u7a7a\u767d' });
   }
+}
+
+// ============================================================
+// 判断字节流是否像 GBK 编码的中文
+// ============================================================
+// GBK 双字节汉字的范围：
+//   首字节 0x81-0xFE，次字节 0x40-0xFE（不含 0x7F）
+// UTF-8 汉字的首字节则一定是 0xE4-0xE9 开头、共三字节。
+// 这里统计符合 GBK 模式的双字节对数量，超过一定比例就判定为 GBK。
+function looksLikeGbk(buf) {
+  let pairs = 0;
+  let i = 0;
+  while (i < buf.length - 1) {
+    const b1 = buf[i];
+    const b2 = buf[i + 1];
+    if (b1 >= 0x81 && b1 <= 0xFE && b2 >= 0x40 && b2 <= 0xFE && b2 !== 0x7F) {
+      pairs++;
+      i += 2;
+      continue;
+    }
+    i++;
+  }
+  return pairs >= 2;   // 至少出现两处 GBK 汉字特征才判定
 }
 
 // ============================================================
