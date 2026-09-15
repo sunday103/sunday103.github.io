@@ -1,11 +1,11 @@
 ---
 title: Hello World
 ---
-æ¬¢è¿æ¥åˆ°[Hexo](https://hexo.io/)! è¿™æ˜¯ä½ çš„ç¬¬ä¸€ç¯‡åšæ–‡ã€‚ç‚¹å‡»[documentationï¼ˆæ–‡æ¡£ï¼‰](https://hexo.io/docs/) äº†è§£æ›´å¤šä¿¡æ¯. å¦‚æœä½ åœ¨ä½¿ç”¨HEXOä¸­é‡åˆ°ä»»ä½•é—®é¢˜ï¼Œä½ å¯ä»¥åœ¨ [troubleshootingï¼ˆæ•…éšœæ’é™¤ï¼‰](https://hexo.io/docs/troubleshooting.html)ä¸­æ‰¾åˆ°ç­”æ¡ˆï¼Œæˆ–è€…åœ¨[GitHub](https://github.com/hexojs/hexo/issues)ä¸Šè¯¢é—®.
+»¶Ó­À´µ½[Hexo](https://hexo.io/)! ÕâÊÇÄãµÄµÚÒ»Æª²©ÎÄ¡£µã»÷[documentation£¨ÎÄµµ£©](https://hexo.io/docs/) ÁË½â¸ü¶àĞÅÏ¢. Èç¹ûÄãÔÚÊ¹ÓÃHEXOÖĞÓöµ½ÈÎºÎÎÊÌâ£¬Äã¿ÉÒÔÔÚ [troubleshooting£¨¹ÊÕÏÅÅ³ı£©](https://hexo.io/docs/troubleshooting.html)ÖĞÕÒµ½´ğ°¸£¬»òÕßÔÚ[GitHub](https://github.com/hexojs/hexo/issues)ÉÏÑ¯ÎÊ.
 
-## å¿«é€Ÿå¼€å§‹
+## ¿ìËÙ¿ªÊ¼
 
-### åˆ›å»ºæ–°å¸–å­
+### ´´½¨ĞÂÌû×Ó
 
 ``` bash
 $ hexo new "My New Post"
