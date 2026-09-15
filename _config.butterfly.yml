@@ -1,0 +1,158 @@
+# ============================================================
+# Butterfly 主题配置（站点级覆盖）
+# ============================================================
+# 本文件会「深度覆盖」主题自带的默认配置：
+#   主题默认 → node_modules\hexo-theme-butterfly\_config.yml（1132 行）
+#   本文件   → 只写你要改的项，其余全部继承默认
+#
+# 这样设计的好处：主题升级时你的配置不会丢，也不用维护上千行。
+#
+# 想改别的功能：去主题默认配置里找到对应段落，把需要的键复制到本文件再改。
+#
+# 注意：本文件是 UTF-8 无 BOM 编码，不要用 PowerShell 的 Set-Content 修改。
+# ============================================================
+
+# --------------------------------------
+# 导航栏
+# --------------------------------------
+nav:
+  # 导航栏 logo 图片（留空则只显示站点标题文字）
+  logo:
+  display_title: true
+  # 滚动时固定导航栏
+  fixed: false
+
+# 导航菜单
+# 格式：显示文字: 链接 || 图标class
+# 图标可在 https://fontawesome.com/icons 查找
+menu:
+  首页: / || fas fa-home
+  归档: /archives/ || fas fa-archive
+  标签: /tags/ || fas fa-tags
+  分类: /categories/ || fas fa-folder-open
+
+# --------------------------------------
+# 代码块
+# --------------------------------------
+code_blocks:
+  # 代码高亮主题：darker / pale night / light / ocean / false
+  # 对方站点用的是 light
+  theme: light
+  macStyle: false
+  height_limit: false
+  word_wrap: false
+  # 右上角工具栏
+  copy: true
+  language: true
+  shrink: false
+  fullpage: false
+
+# --------------------------------------
+# 图片设置
+# --------------------------------------
+favicon: /favicon.ico
+
+avatar:
+  img: /img/butterfly-icon.png
+  effect: false
+
+# 首页顶部大图（留空则用主题默认背景图）
+index_img:
+
+# 首页顶部大图高度，例如 300px / 100vh
+index_top_img_height:
+
+# --------------------------------------
+# 首页文章列表
+# --------------------------------------
+# 布局：
+#   1 封面在左、信息在右      2 封面在右、信息在左
+#   3 左右交替（对方用的）     4 封面在上、信息在下
+#   5 信息覆盖在封面上         6 瀑布流+封面在上   7 瀑布流+信息覆盖
+index_layout: 3
+
+# 首页文章摘要显示方式：
+#   1 只显示 description    2 有 description 用 description，否则自动摘要
+#   3 自动摘要（对方用的）    false 不显示摘要
+index_post_content:
+  method: 3
+  # 摘要字数
+  length: 500
+
+# 首页副标题打字机效果
+subtitle:
+  enable: false
+  effect: true
+
+# --------------------------------------
+# 文章元信息（日期 / 分类 / 标签）
+# --------------------------------------
+post_meta:
+  page:
+    date_type: created
+    date_format: date
+    categories: true
+    tags: false
+    # 显示「发表于」这类中文标签
+    label: true
+  post:
+    position: left
+    date_type: both
+    date_format: date
+    categories: true
+    tags: true
+    label: true
+
+# --------------------------------------
+# 暗色模式
+# --------------------------------------
+darkmode:
+  enable: true
+  # 右下角明暗切换按钮（对方有）
+  button: true
+  # false 不自动切换；1 跟随系统；2 按时间切换
+  autoChangeMode: false
+
+# --------------------------------------
+# 复制代码提示（中文）
+# --------------------------------------
+copy:
+  enable: true
+  copyright:
+    enable: false
+    limit_count: 150
+
+# --------------------------------------
+# 访问量统计（不蒜子）
+# --------------------------------------
+busuanzi:
+  site_uv: true
+  site_pv: true
+  page_pv: true
+
+# --------------------------------------
+# 搜索
+# --------------------------------------
+# 留空表示不开启搜索。
+# 要开启本地搜索：先执行 npm install hexo-generator-searchdb --save
+# 然后把 use 改成 local_search
+search:
+  use:
+  placeholder:
+
+# --------------------------------------
+# 背景特效：彩带飘动（对方站点的标志性效果）
+# --------------------------------------
+canvas_fluttering_ribbon:
+  enable: true
+  mobile: false
+
+# --------------------------------------
+# 页脚
+# --------------------------------------
+footer:
+  # 自定义页脚文字，可用 HTML。留空则显示默认的 Hexo 署名
+  custom_text:
+  copyright: false
+  # 页脚主题色，false 表示不用
+  theme: false

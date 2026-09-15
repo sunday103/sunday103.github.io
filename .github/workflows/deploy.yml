@@ -1,0 +1,48 @@
+name: Deploy Hexo to GitHub Pages
+
+# ------------------------------------------------------------
+# 触发条件：推送到 hexo 分支时自动构建并发布
+# ------------------------------------------------------------
+on:
+  push:
+    branches:
+      - hexo
+  workflow_dispatch:        # 也支持在 Actions 页面手动点击运行
+
+# ------------------------------------------------------------
+# 权限：需要 contents: write 才能把构建产物推送到 main 分支
+# ------------------------------------------------------------
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 用 npm ci 保证依赖版本与 package-lock.json 完全一致
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Build site
+        run: npm run build
+
+      # 把 public/ 的内容发布到 main 分支
+      # 关键：external_repository 不填，就是当前仓库的 main 分支
+      - name: Deploy to main branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: main
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'chore: auto build from ${{ github.sha }}'
