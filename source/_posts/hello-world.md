@@ -1,5 +1,6 @@
 ---
 title: Hello World（听说是程序员梦的开始）
+date: 2026-09-15 20:09:03
 tags: [自用]
 ---
 欢迎来到 [Hexo](https://hexo.io/)! 这是你的第一篇博文. 点击 [documentation](https://hexo.io/docs/) 了解更多信息. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
@@ -47,6 +48,7 @@ $ hexo deploy
 ```markdown
 ---
 title: 我的第一篇博客
+date: 2026-09-15 20:09:03
 date: 2026-09-15 16:45:36
 tags: [随笔, 学习]
 categories: [记录]
@@ -159,6 +161,7 @@ npx hexo new page about
 ```markdown
 ---
 title: 标签
+date: 2026-09-15 20:09:03
 date: 2026-09-15 15:30:00
 type: tags
 ---
@@ -168,6 +171,7 @@ type: tags
 ```markdown
 ---
 title: 分类
+date: 2026-09-15 20:09:03
 date: 2026-09-15 15:30:00
 type: categories
 ---
@@ -183,6 +187,7 @@ type: categories
 
 ```yaml
 title: sunday103 的博客      # 站点标题（左上角）|
+date: 2026-09-15 20:09:03
 subtitle: '记录与思考'        # 副标题
 description: '一个普通人的技术笔记'   # 描述（SEO 用）
 author: sunday103

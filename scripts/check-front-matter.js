@@ -185,6 +185,35 @@ function checkFile(full, errors, warnings) {
     warnings.push({ file: rel, msg: 'front-matter \u4e2d\u672a\u8bbe\u7f6e title' });
   }
 
+  // ---- 日期字段检查（直接影响文章 URL，很重要）----
+  // Hexo 的永久链接是 :year/:month/:day/:title/，日期怎么算决定了 URL：
+  //   没写 date    → 用文件修改时间/构建时间；本地与云端构建时刻不同，
+  //                  同一篇文章会在两处生成不同 URL。
+  //   只写日期      → YAML 按 UTC 00:00 解析；云端(UTC)与本地(UTC+8)会差一天。
+  //   日期+具体时间 → URL 固定，任何环境都一致。← 推荐
+  const dateStr = String(parsed.date === undefined || parsed.date === null ? '' : parsed.date);
+  const dateInRaw = /^date:\s*(.+)$/m.exec(raw);
+  const rawDateVal = dateInRaw ? dateInRaw[1].trim().replace(/^['"]|['"]$/g, '') : '';
+  const hasClock = /[ T]\d{1,2}:\d{2}/.test(rawDateVal);
+
+  if (!rawDateVal) {
+    warnings.push({
+      file: rel,
+      msg: '\u672a\u8bbe\u7f6e date\u3002Hexo \u4f1a\u6539\u7528\u6587\u4ef6\u4fee\u6539\u65f6\u95f4\uff0c'
+        + '\u5bfc\u81f4\u672c\u5730\u4e0e\u4e91\u7aef\u7b97\u51fa\u4e0d\u540c\u7684\u6587\u7ae0 URL\uff08\u70b9\u8fdb\u53bb 404\uff09\u3002'
+        + '\u5efa\u8bae\u8865\u4e0a\u5177\u4f53\u65f6\u95f4\uff0c\u5982\uff1adate: 2026-09-15 20:09:03'
+    });
+  } else if (!hasClock) {
+    warnings.push({
+      file: rel,
+      msg: `date \u53ea\u5199\u4e86\u65e5\u671f\uff08${rawDateVal}\uff09\uff0c\u672a\u5199\u65f6\u95f4\u3002`
+        + 'YAML \u4f1a\u6309 UTC \u5348\u591c\u89e3\u6790\uff0c\u4e91\u7aef(UTC)\u4e0e\u672c\u5730(UTC+8)'
+        + '\u53ef\u80fd\u7b97\u51fa\u76f8\u5dee\u4e00\u5929\u7684 URL\u3002'
+        + `\u5efa\u8bae\u8865\u4e0a\u65f6\u95f4\uff0c\u5982\uff1adate: ${rawDateVal} 12:00:00`
+    });
+  }
+  void dateStr;
+
   const body = raw.slice(m[0].length).trim();
   if (!body) {
     warnings.push({ file: rel, msg: '\u6b63\u6587\u4e3a\u7a7a\uff0c\u6587\u7ae0\u9875\u4f1a\u663e\u793a\u4e3a\u7a7a\u767d' });
